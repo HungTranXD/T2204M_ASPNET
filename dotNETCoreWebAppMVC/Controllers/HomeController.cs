@@ -24,8 +24,10 @@ namespace dotNETCoreWebAppMVC.Controllers
         }
 
         //[Route("/about-us")]
-        public IActionResult AboutUs()
+        public IActionResult AboutUs(string name, int numTimes = 1)
         {
+            ViewData["massage"] = "Hello" + name;
+            ViewData["numTimes"] = numTimes;
             return View();
         }
 

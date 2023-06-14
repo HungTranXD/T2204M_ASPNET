@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace dotNETCoreWebAppMVC.Entities
 {
-    [Table("Products")]
+    [Table("Categories")]
     public class Category
     {
         [Key]

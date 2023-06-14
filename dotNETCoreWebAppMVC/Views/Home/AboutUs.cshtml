@@ -6,3 +6,10 @@
 
 <h1>About Us Page</h1>
 <h2>Hello World!</h2>
+
+<ul>
+    @for (int i = 0; i < (int)ViewData["numTimes"]!; i++)
+    {
+        <li>@ViewData["massage"]</li>
+    }
+</ul>
