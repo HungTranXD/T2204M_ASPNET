@@ -1,0 +1,28 @@
+﻿@page
+@model dotNETCoreWebAppMVC.Models.ProductViewModel
+@{}
+@using (Html.BeginForm("Create", "Product", FormMethod.Post))
+{
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price)
+        @Html.ValidationMessageFor(m => m.Price)
+    </div>
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextBoxFor(m => m.Description)
+        @Html.ValidationMessageFor(n => n.Description)
+    </div>
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Category)
+        @Html.DropDownListFor(m => m.Category, ViewBag.categories as SelectList)
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}

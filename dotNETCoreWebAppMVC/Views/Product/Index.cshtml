@@ -1,0 +1,32 @@
+﻿@model List<dotNETCoreWebAppMVC.Entities.Product>
+@{
+    ViewData["Title"] = "Product Page";
+}
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <h1>Product List</h1>
+        <a asp-controller="Product" asp-action="Create">Create New Product</a>
+        <table class="table">
+            <thead>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Description</td>
+                <td>Category</td>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Price</td>
+                        <td>@item.Description</td>
+                        <td>@item.Category.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
