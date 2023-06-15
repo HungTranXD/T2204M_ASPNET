@@ -11,7 +11,7 @@ using dotNETCoreWebAppMVC.Entities;
 namespace dotNETCoreWebAppMVC.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230614134258_InitialCreate")]
+    [Migration("20230615013119_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
