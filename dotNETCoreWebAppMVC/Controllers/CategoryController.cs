@@ -50,5 +50,29 @@ namespace dotNETCoreWebAppMVC.Controllers
             }
             return View(viewModel);
         }
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var category = _dataContext.Categories.Find;
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(category);
+
+        }
+
+        
+
+        public string Delete(int? id)
+        {
+            return "Id = " + id!;
+        }
     }
 }
