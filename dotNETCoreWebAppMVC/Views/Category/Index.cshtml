@@ -16,6 +16,7 @@
                 <td>ID</td>
                 <td>Name</td>
                 <td>Products Count</td>
+                <td>Action</td>
             </thead>
             <tbody>
                 @foreach(var item in Model)
@@ -24,6 +25,10 @@
                         <td>@item.Id</td>
                         <td>@item.Name</td>
                         <td>@item.Products.Count</td>
+                        <td>        
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
                     </tr>
                 }
             </tbody>

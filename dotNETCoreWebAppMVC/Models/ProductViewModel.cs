@@ -21,8 +21,8 @@ namespace dotNETCoreWebAppMVC.Models
         [Display(Name = "Mo ta")]
         public string Description { get; set; }
 
-
         [Display(Name = "Danh muc")]
-        public Category Category { get; set; }
-}
+        public int CategoryId { get; set; }
+
+    }
 }

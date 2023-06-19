@@ -1,3 +1,4 @@
+using dotNETCoreWebAppMVC.Entities;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,14 @@ builder.Services.AddDbContext<dotNETCoreWebAppMVC.Entities.DataContext>(
 );
 
 var app = builder.Build();
+
+// Seed data 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
