@@ -36,6 +36,7 @@ namespace dotNETCoreWebAppMVC.Controllers
         public IActionResult Create() 
         {
             return View();
+
             
         }
 
@@ -51,28 +52,67 @@ namespace dotNETCoreWebAppMVC.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = _dataContext.Categories.Find;
+            var category = _dataContext.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            return View(category);
-
+            return View(new EditCategoryViewModel { Id = id, Name = category.Name});
         }
 
-        
-
-        public string Delete(int? id)
+        [HttpPost]
+        public IActionResult Edit(EditCategoryViewModel viewModel)
         {
-            return "Id = " + id!;
+            if (ModelState.IsValid)
+            {
+                _dataContext.Categories.Update(new Category { Id = viewModel.Id, Name = viewModel.Name});
+                _dataContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(viewModel);
+            
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var category = _dataContext.Categories.Find(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.Categories.Remove(category);
+            _dataContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Upload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Upload(IFormFile image)
+        {
+            if (image == null)
+            {
+                return BadRequest("No image uploaded");
+            }
+
+            var path = "wwwroot/uploads";
+            var fileName = Guid.NewGuid().ToString() + Path.GetFileName(image.FileName);
+            var upload = Path.Combine(Directory.GetCurrentDirectory(), path, fileName);
+
+            image.CopyTo(new FileStream(upload, FileMode.Create));
+            var rs = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+            return Ok(rs);
+
+
         }
     }
 }

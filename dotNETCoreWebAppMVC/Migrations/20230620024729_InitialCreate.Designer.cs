@@ -11,7 +11,7 @@ using dotNETCoreWebAppMVC.Entities;
 namespace dotNETCoreWebAppMVC.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230615013119_InitialCreate")]
+    [Migration("20230620024729_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -55,6 +55,9 @@ namespace dotNETCoreWebAppMVC.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

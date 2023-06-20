@@ -21,6 +21,10 @@ namespace dotNETCoreWebAppMVC.Models
         [Display(Name = "Mo ta")]
         public string Description { get; set; }
 
+        [Display(Name = "Image")]
+        /*[FileExtensions(Extensions = ".png,.jpg,.jpeg", ErrorMessage = "Please select a valid image file.")]*/
+        public IFormFile? Image { get; set; }
+
         [Display(Name = "Danh muc")]
         public int CategoryId { get; set; }
 

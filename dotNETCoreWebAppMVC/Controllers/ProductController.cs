@@ -38,17 +38,30 @@ namespace dotNETCoreWebAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                string rs = null;
+                if (viewModel.Image != null)
+                {
+                    var path = "wwwroot/uploads";
+                    var fileName = Guid.NewGuid().ToString() + Path.GetFileName(viewModel.Image.FileName);
+                    var upload = Path.Combine(Directory.GetCurrentDirectory(), path, fileName);
+
+                    viewModel.Image.CopyTo(new FileStream(upload, FileMode.Create));
+                    rs = $"{Request.Scheme}://{Request.Host}/uploads/{fileName}";
+                }
+
                 var product = new Product
                 {
                     Name = viewModel.Name,
                     Price = viewModel.Price,
                     Description = viewModel.Description,
+                    Image = rs,
                     CategoryId = viewModel.CategoryId,
                 };
                 _dataContext.Products.Add(product);
                 _dataContext.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.categories = _dataContext.Categories.ToList();
             return View(viewModel);
         }
 

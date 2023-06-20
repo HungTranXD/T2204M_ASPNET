@@ -26,8 +26,9 @@
                         <td>@item.Name</td>
                         <td>@item.Products.Count</td>
                         <td>        
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                            |
+                            <a href="@Url.ActionLink("Delete", "Category", new {id = item.Id})" onclick="return confirm('Delete item #@item.Id ?')">Delete</a>
                         </td>
                     </tr>
                 }

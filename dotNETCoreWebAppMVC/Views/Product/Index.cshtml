@@ -21,6 +21,7 @@
                 <td>Name</td>
                 <td>Price</td>
                 <td>Description</td>
+                <td>Image</td>
                 <td>Category</td>
                 <td>Action</td>
             </thead>
@@ -32,9 +33,13 @@
                         <td>@item.Name</td>
                         <td>@item.Price</td>
                         <td>@item.Description</td>
+                        <td>
+                            <img src="@item.Image" alt="@item.Image" style="max-width:70px" class="img-thumbnail"/>
+                        </td>
                         <td>@item.Category.Name</td>
                         <td>
                             @*<a href="@Url.Action("Edit", "Product", new { id = item.Id })">Edit</a>*@
+                            @*@Html.ActionLink("Edit this Category", "Edit", new { id = item.Id })*@
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             |
                             <a href="#" onclick="confirmDelete('@item.Id')">Delete</a>

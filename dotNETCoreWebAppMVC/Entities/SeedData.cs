@@ -47,6 +47,7 @@ public static class SeedData
                         Name = "Product 1",
                         Price = 1000,
                         Description = "Desciption for product 1",
+                        Image = "https://picsum.photos/seed/picsum/200/300",
                         CategoryId = categories[0].Id
                     },
                     new Product
@@ -54,6 +55,7 @@ public static class SeedData
                         Name = "Product 2",
                         Price = 500,
                         Description = "Desciption for product 2",
+                        Image = "https://picsum.photos/seed/picsum/200/300",
                         CategoryId = categories[1].Id
                     },
                     new Product
@@ -61,6 +63,7 @@ public static class SeedData
                         Name = "Product 3",
                         Price = 1200,
                         Description = "Desciption for product 3",
+                        Image = "https://picsum.photos/seed/picsum/200/300",
                         CategoryId = categories[3].Id
                     }
                 };

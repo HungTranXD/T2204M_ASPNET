@@ -1,7 +1,7 @@
 ﻿@page
 @model dotNETCoreWebAppMVC.Models.ProductViewModel
 @{}
-@using (Html.BeginForm("Create", "Product", FormMethod.Post))
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="mb-3">
         @Html.LabelFor(m => m.Name)
@@ -19,8 +19,13 @@
         @Html.ValidationMessageFor(n => n.Description)
     </div>
     <div class="mb-3">
+        @Html.LabelFor(m => m.Image)
+        <input type="file" name="Image" class="form-control-file" />
+        @Html.ValidationMessageFor(m => m.Image)
+    </div>
+    <div class="mb-3">
         @Html.LabelFor(m => m.CategoryId)
-        @Html.DropDownListFor(m => m.CategoryId, new SelectList(ViewBag.categories, "Id", "Name"), "Select Category", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.CategoryId, new SelectList(ViewBag.categories, "Id", "Name") , "Select Category", new { @class = "form-control" })
         @Html.ValidationMessageFor(n => n.CategoryId)
     </div>
     <div class="mb-3">
