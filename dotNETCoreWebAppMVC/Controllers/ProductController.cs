@@ -65,13 +65,8 @@ namespace dotNETCoreWebAppMVC.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound(); 
-            }
-
             var product = _dataContext.Products
                 .Include(p => p.Category)
                 .FirstOrDefault(p => p.Id == id);
@@ -81,15 +76,16 @@ namespace dotNETCoreWebAppMVC.Controllers
                 return NotFound();
             }
 
-            var viewModel = new ProductViewModel
+            var viewModel = new EditProductViewModel
             {
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
+                Image = product.Image,
                 CategoryId = product.CategoryId,
             };
 
-            ViewBag.id = id;
             ViewBag.categories = _dataContext.Categories.ToList();
 
             return View(viewModel);
@@ -97,11 +93,11 @@ namespace dotNETCoreWebAppMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, ProductViewModel viewModel)
+        public IActionResult Edit(EditProductViewModel viewModel)
         {
             if (ModelState.IsValid) 
             {
-                var product = _dataContext.Products.FirstOrDefault(p => p.Id == id);
+                var product = _dataContext.Products.FirstOrDefault(p => p.Id == viewModel.Id);
 
                 if (product == null)
                 {
@@ -118,7 +114,6 @@ namespace dotNETCoreWebAppMVC.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id = id;
             ViewBag.categories = _dataContext.Categories.ToList();
             return View(viewModel);
         }
