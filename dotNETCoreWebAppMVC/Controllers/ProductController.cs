@@ -15,15 +15,20 @@ namespace dotNETCoreWebAppMVC.Controllers
             _dataContext = dataContext;
         }
 
-        public IActionResult Index(string searchString)
+        public IActionResult Index(int? categoryId, string searchString)
         {
             var products = from p in _dataContext.Products.Include(p => p.Category) select p;
 
+            if (categoryId != null)
+            {
+                products = products.Where(p => p.CategoryId == categoryId);
+            }
             if (!String.IsNullOrEmpty(searchString))
             {
                 products = products.Where(p => p.Name.Contains(searchString));
             }
 
+            ViewBag.categories = _dataContext.Categories.ToList();
             return View(products.ToList());
         }
 
