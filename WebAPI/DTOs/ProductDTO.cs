@@ -9,8 +9,10 @@
         public int Quantity { get; set; }
         public string? Description { get; set; }
         public DateTime? CreatedAt { get; set; }
-        public CategoryDTO Category { get; set; }
-        public BrandDTO Brand { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
 
     }
 }

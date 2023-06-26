@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
 using WebAPI.DTOs;
 using WebAPI.Entities;
@@ -21,25 +22,27 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var categories = _context.Categories.ToList();
-            List<CategoryDTO> list = new List<CategoryDTO>();
-            foreach(var item in categories)
-            {
-                list.Add(new CategoryDTO { Id = item.Id, Name = item.Name });
-            }
-            return Ok(list);
+            var categories = _context.Categories
+                .Include(c => c.Products)
+                    .ThenInclude(p => p.Brand)
+                .Select(c => DTOConverter.CategoryToDTO(c))
+                .ToList();
+            return Ok(categories);
         }
 
         [HttpGet]
         [Route("detail")]
         public IActionResult Details(int id) 
         {
-            var category = _context.Categories.Find(id);
-            if (category != null)
+            var category = _context.Categories
+                .Include(c => c.Products)
+                    .ThenInclude(p => p.Brand)
+                .FirstOrDefault(c => c.Id == id);
+            if (category == null)
             {
-                return Ok(new CategoryDTO { Id = category.Id, Name = category.Name });
+                return NotFound();
             }
-            return NotFound();
+            return Ok(DTOConverter.CategoryToDTO(category));
         }
 
         [HttpPost]
@@ -56,6 +59,37 @@ namespace WebAPI.Controllers
                 return Created($"detail?id={category.Id}", new CategoryDTO { Id = category.Id, Name = category.Name });
             } 
             return BadRequest();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, CategoryDTO categoryDTO) 
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var category = _context.Categories.Find(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            category.Name = categoryDTO.Name;
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var category = _context.Categories.Find(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }

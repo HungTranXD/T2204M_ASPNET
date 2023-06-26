@@ -8,6 +8,6 @@
 
         public string Logo { get; set; }
 
-        public virtual ICollection<ProductDTO>? Products { get; set; }
+        public virtual ICollection<ProductDTO> Products { get; set; }
     }
 }

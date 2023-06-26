@@ -10,10 +10,15 @@ namespace WebAPI.DTOs
             {
                 Id = product.Id,
                 Name = product.Name,
+                Thumbnail = product.Thumbnail,
                 Price = product.Price,
                 Quantity = product.Quantity,
                 Description = product.Description,
-                // Map other properties
+                CreatedAt = product.CreatedAt,
+                CategoryId = product.CategoryId,
+                CategoryName = product.Category.Name,
+                BrandId = product.BrandId,
+                BrandName = product.Brand?.Name
             };
         }
 
@@ -23,7 +28,7 @@ namespace WebAPI.DTOs
             {
                 Id = category.Id,
                 Name = category.Name,
-                // Map other properties
+                Products = category.Products.Select(ProductToDTO).ToList()
             };
         }
 
@@ -34,7 +39,7 @@ namespace WebAPI.DTOs
                 Id = brand.Id,
                 Name = brand.Name,
                 Logo = brand.Logo,
-                // Map other properties
+                Products = brand.Products.Select(ProductToDTO).ToList()
             };
         }
     }
