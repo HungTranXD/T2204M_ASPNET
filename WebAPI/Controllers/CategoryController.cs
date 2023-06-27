@@ -61,8 +61,9 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, CategoryDTO categoryDTO) 
+        /*[HttpPut("{id}")]*/
+        //HttpPatch nếu chỉ muốn update 1 vài thông tin
+        /*public IActionResult Update(int id, CategoryDTO categoryDTO) 
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -77,6 +78,20 @@ namespace WebAPI.Controllers
             _context.SaveChanges();
 
             return NoContent();
+        }*/
+
+        [HttpPut]
+        public IActionResult Update(CategoryDTO categoryDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = new Category { Id = categoryDTO.Id, Name = categoryDTO.Name };
+                _context.Categories.Update(category);
+                _context.SaveChanges();
+                return NoContent(); //204
+            }
+
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -91,5 +106,7 @@ namespace WebAPI.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+        
     }
 }
