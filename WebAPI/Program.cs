@@ -2,9 +2,25 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 1 - Them CORS:
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            //policy.WithOrigins("http://24h.com.vn"); cho phep dia chi IP goi API
+            policy.AllowAnyOrigin();
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+        }
+    );
+});
+
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 
 // Add connection to databbase.
 var connectionString = builder.Configuration.GetConnectionString("T2204M_ASPNET_API");
@@ -24,6 +40,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// 1 - Them CORS:
+app.UseCors();
 
 app.UseHttpsRedirection();
 
