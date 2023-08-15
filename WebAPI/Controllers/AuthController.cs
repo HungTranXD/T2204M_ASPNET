@@ -5,6 +5,12 @@ using BCrypt.Net;
 using dotNETCoreWebAppMVC.Entities;
 using WebAPI.Entities;
 using WebAPI.DTOs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI.Controllers
 {
@@ -13,10 +19,12 @@ namespace WebAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly T2204mAspnetApiContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(T2204mAspnetApiContext context)
+        public AuthController(T2204mAspnetApiContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration; 
         }
 
         [HttpPost]
@@ -40,10 +48,31 @@ namespace WebAPI.Controllers
             {
                 Email = user.Email,
                 Fullname = user.Fullname,
-                Token = null
+                Token = generateJWT(user)
             };
 
             return Ok(UserDTO);
+        }
+
+        private string generateJWT (User user)
+        {
+            var secretkey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+            var signatureKey = new SigningCredentials(secretkey, SecurityAlgorithms.HmacSha256);
+            var payload = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Role,"user")
+            };
+            var token = new JwtSecurityToken(
+                    _configuration["JWT:Issuer"],
+                    _configuration["JWT:Audience"],
+                    payload,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: signatureKey
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
