@@ -8,7 +8,7 @@ namespace dotNETCoreWebAppMVC.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly DataContext _dataContext;
+        /*private readonly DataContext _dataContext;
 
         public ProductController(DataContext dataContext)
         {
@@ -135,6 +135,6 @@ namespace dotNETCoreWebAppMVC.Controllers
             _dataContext.SaveChanges();
 
             return RedirectToAction("Index");
-        }
+        }*/
     }
 }
